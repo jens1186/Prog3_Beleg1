@@ -10,11 +10,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.Iterator;
+import java.util.SortedMap;
 import java.util.StringTokenizer;
+import java.util.TreeMap;
 
 
 /**
@@ -26,6 +24,8 @@ public final class Read {
   private String datei;
   private String inhalt_roh="";
   private ArrayList<String> inhalt;
+  private SortedMap <String, Integer> wortanzahl_map; 
+
   
   Read(String datei){
     
@@ -70,7 +70,6 @@ public final class Read {
    }
   
   public void sortieren(boolean alphabetisch){
-      System.out.println(alphabetisch);
     if(alphabetisch == true)
     {
     /* Liste alphabetisch aufsteigend sortieren (a...z) */
@@ -89,30 +88,43 @@ public final class Read {
     }
   }
   
-  public void zaehlenAsc(){
-    
-    Hashtable <String, Integer> map = new Hashtable<> (); // word | anzahl
-        
-    for(String wort : this.inhalt){
-          if(!map.containsKey(wort))
+  private void zaehleWortanzahl(){
+      for(String wort : this.inhalt){
+          if(!wortanzahl_map.containsKey(wort))
               {
-                map.put(wort, 1);
+                wortanzahl_map.put(wort, 1);
               }
           else
               {
-                map.put(wort,map.get(wort)+1);
+                wortanzahl_map.put(wort,wortanzahl_map.get(wort)+1);
               }
-              //System.out.println(wordMap);
       }
-    Enumeration e = map.keys();
-         while (e.hasMoreElements()) {
-      //      sKey = iterator.next();
-             
-        String alias = (String)e.nextElement();
-        System.out.printf("%-40s", alias) ;
-        System.out.printf("%10s", map.get(alias));
+  }
+      
+  
+  private void druckeWort(int min, int max){
+      for(String wort : wortanzahl_map.keySet()){
+      if(wortanzahl_map.get(wort)> min && wortanzahl_map.get(wort)< max)
+      {
+        System.out.printf("%-40s", wort) ;
+        System.out.printf("%10s", wortanzahl_map.get(wort));
         System.out.println("");
+      }
     }
+  }
+  
+  public void AusgabeA_Z(int min , int max){
+      
+      this.wortanzahl_map = new TreeMap();
+      zaehleWortanzahl();
+      druckeWort(min, max);
+  }
+  
+  public void AusgabeZ_A(int min , int max){
+    
+        this.wortanzahl_map = new TreeMap(Collections.reverseOrder());
+        zaehleWortanzahl();
+        druckeWort(min, max);      
     }
     
   

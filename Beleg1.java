@@ -72,15 +72,15 @@ public class Beleg1 {
         
         switch(Integer.parseInt(eingabe)){
           case 1:
-            r.sortieren(true);
+            r.AusgabeA_Z(0,10000);
             eingabe = "";
             break;
           case 2:
-            r.zaehlenAsc();
+            r.AusgabeA_Z(233,235);
             eingabe = "";
             break;
           case 3:
-            r.sortieren(false);
+            r.AusgabeZ_A(0,10000);
             eingabe = "";
             break;
           case 4:
