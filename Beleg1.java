@@ -17,25 +17,23 @@ public class Beleg1 {
      */
     public static void main(String[] args) {
       
-      if (args.length < 2) {
+      if(args.length != 2)
+      {
         System.out.println("Bitte zu untersuchende Datei als Paramteter "
                 + "angeben");
-        System.out.println("Syntax: java Beleg1 beispiel.txt");
+        System.out.println("Syntax: ./java Beleg1 <beispiel.txt>");
         System.exit(1);
-        }
-        // optionally, check that there are exactly 2 arguments
-        if (args.length > 2) {
-          System.out.println("Zu viele Argumente angegeben!");
-          System.out.println("Syntax: java Beleg1 beispiel.txt");
-          System.exit(1);
-        }
-        
+      }
+      else
+      {
         new Parameter(args[0], args[1]).echo();
+      }
+      
         
         
         
         
-
+      Read r = new Read(args[1]);
       Scanner sc = new Scanner(System.in);
       String eingabe = "";
 
@@ -61,52 +59,52 @@ public class Beleg1 {
         System.out.println("  [12] Textdatei anzeigen");
         System.out.println("  [13] Programm beenden");
         
-        
-        
+
         System.out.println("-------------------------------------------------");
         
-        
-        eingabe = sc.nextLine();
-       
-        System.out.println("-----------------------------------------8-------");
-        
-        while(eingabe.matches("[0-6]*")== false && eingabe.matches("[ÄÖÜäöüßA"
-                              + "-Za-z\\.\\- ]*") == true) 
+        while(eingabe.matches("^[0-9]+$")== false) 
           {
-            System.out.println("Bitte eine Zahl eingeben (1-13)!");
+            System.out.println("Bitte eine Zahl eingeben (1-13):\n");
             eingabe = sc.nextLine();
           }
         
-        Read r = new Read(args[1]);
+        
         
         switch(Integer.parseInt(eingabe)){
           case 1:
-            r.sortieren();
+            r.sortieren(true);
+            eingabe = "";
             break;
           case 2:
             r.zaehlenAsc();
-            
+            eingabe = "";
             break;
           case 3:
-
+            r.sortieren(false);
+            eingabe = "";
             break;
           case 4:
 
             break;
-          case 5: 
+          case 5:
+            eingabe = "";
             break;   
 
           case 12:
-            r.lesen(args[1]);
+            r.ausgeben();
+            eingabe = "";
             break;
-            
+          case 13:
+            System.exit(0);
+            break;  
+              
           default:
             System.out.println("Falsche Eingabe!\n"
                     + "Bitte eine Zahl eingeben (1-13)!\n");
             break;
         }
           
-        } while (Integer.parseInt(eingabe) != 13);
+        } while (!"13".equals(eingabe));
         
     }
 

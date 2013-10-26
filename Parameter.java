@@ -10,22 +10,21 @@ package beleg1;
  */
 public class Parameter {
   
-  private final String arg0;
-  private final String arg1;
-  
-  
+  private final String programmName;
+  private final String dateiName;
+   
   public Parameter(String arg0, String arg1) {
-    this.arg0 = arg0;
-    this.arg1 = arg1;
+    this.programmName = arg0;
+    this.dateiName = arg1;
   }
 
   public void echo() {
-    System.out.println("Programmname\t: " +arg0);
-    System.out.println("Dateiname\t: " +arg1);
+    System.out.println("Programmname\t: " + this.programmName);
+    System.out.println("Dateiname\t: " + this.dateiName);
   }
   
   public String getName ( ){
-    return arg1;
+    return this.dateiName;
   }
   
   

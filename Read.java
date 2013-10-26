@@ -5,43 +5,52 @@
 package beleg1;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.StringTokenizer;
+
 
 /**
  *
  * @author Jens
  */
-public class Read {
+public final class Read {
   
-  public final String datei;
+  private String datei;
+  private String inhalt_roh="";
+  private ArrayList<String> inhalt;
+  
   Read(String datei){
     
     this.datei = datei;
+    this.lesen(datei);
     
   }
   
   public void lesen(String file){
     
-    final ArrayList<String> words = new ArrayList<String>();
-
+    this.inhalt = new ArrayList<>();
+    StringBuilder builder = new StringBuilder();
     try {
       BufferedReader br = new BufferedReader(new FileReader(file));
-      String zeile;
+      String zeile ;
+      br.read();
       while ((zeile = br.readLine()) != null) {
-          for (String s : zeile.split(" ")) {
-              words.add(s);
-          }
-          System.out.println(zeile);
+          builder.append(zeile);
+          builder.append("\n");
       }
+      this.inhalt_roh = builder.toString();
+      
+      StringTokenizer inhalt4inhalt = new StringTokenizer(this.inhalt_roh,
+              "§$«»<>.,_+!?;:\"\n ()[]");
+      while (inhalt4inhalt.hasMoreElements()){
+              this.inhalt.add(inhalt4inhalt.nextElement().toString());
+          }
     }
     catch (IOException e) {
       System.out.println("Die angegebene Datei konnte nicht gefunden werden.\n"
@@ -50,50 +59,37 @@ public class Read {
     
   }
   
-  public void sortieren(){
-    
-    final ArrayList<String> words = new ArrayList<String>();
-
-    try {
-      BufferedReader br = new BufferedReader(new FileReader("kant.txt"));
-      String zeile;
-      while ((zeile = br.readLine()) != null) {
-          for (String s : zeile.split(" ")) {
-              words.add(s.replaceAll("[_[^\\w\\däüöÄÜÖ\\+\\- ]]", ""));
-          }
-         
-          //System.out.println(zeile);
-      }
-    }
-    catch (IOException e) {
-      System.out.println("Die angegebene Datei konnte nicht gefunden werden.\n"
-              + "Bitte ueberpruefen Sie ihre Eingabe");
-    }
-    
+   public void ausgeben(){
+       System.out.print(this.inhalt_roh);
+   }
+  
+  public void sortieren(boolean alphabetisch){
+      System.out.println(alphabetisch);
+    if(alphabetisch == true)
+    {
     /* Liste alphabetisch aufsteigend sortieren (a...z) */
-    Collections.sort(words);
+    Collections.sort(this.inhalt);
+    }
+    else if(alphabetisch == false) {
+    // create comparator for reverse order
+    Comparator cmp = Collections.reverseOrder();  
     
+    /* Liste alphabetisch aufsteigend sortieren (z...a) */
+    Collections.sort(this.inhalt, cmp);
+    }
     /* Ausgabe: Frank Hans Peter */
-    for(String name : words){
-      System.out.println(name);
+    for(String wort : this.inhalt){
+      System.out.println(wort);
     }
   }
   
   public void zaehlenAsc(){
     
-    final ArrayList<String> words = new ArrayList<String>();
-
-    try {
-      BufferedReader br = new BufferedReader(new FileReader("kant.txt"));
-      String zeile;
-      while ((zeile = br.readLine()) != null) {
+    final ArrayList<String> words = new ArrayList<>();
+    HashMap <ArrayList, Integer> map = new HashMap<> (); // word | anzahl
         
-        HashMap <ArrayList, Integer> map = new HashMap<ArrayList, Integer> (); // word | anzahl
-        
-        for (String s : zeile.split(" ")) {
-              words.add(s.replaceAll("[_[^\\w\\däüöÄÜÖ\\+\\- ]]", ""));
-              
-              if(!map.containsKey(words))
+    for(String wort : this.inhalt){
+          if(!map.containsKey(words))
               {
                 map.put(words, 1);
               }
@@ -109,7 +105,6 @@ public class Read {
             sKey = iterator.next();
             System.out.println(sKey + " - " + map.get(sKey));
           
-    }
     }
     }
     
