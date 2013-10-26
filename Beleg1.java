@@ -72,7 +72,7 @@ public class Beleg1 {
         
         switch(Integer.parseInt(eingabe)){
           case 1:
-            r.AusgabeA_Z(0,10000);
+            r.AusgabeA_Z(0, Integer.MAX_VALUE);
             eingabe = "";
             break;
           case 2:
@@ -80,13 +80,15 @@ public class Beleg1 {
             eingabe = "";
             break;
           case 3:
-            r.AusgabeZ_A(0,10000);
+            r.AusgabeZ_A(0, Integer.MAX_VALUE);
             eingabe = "";
             break;
           case 4:
-
+            r.AusgabeZ_A(25,30);
+            eingabe = "";
             break;
-          case 5:
+          case 9:
+            r.ausgabeAktuelleWortanzahlInListe();
             eingabe = "";
             break;   
 

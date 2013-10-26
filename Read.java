@@ -25,7 +25,7 @@ public final class Read {
   private String inhalt_roh="";
   private ArrayList<String> inhalt;
   private SortedMap <String, Integer> wortanzahl_map; 
-
+  private int aktuelleWortanzahl;
   
   Read(String datei){
     
@@ -101,16 +101,22 @@ public final class Read {
       }
   }
       
+  public void ausgabeAktuelleWortanzahlInListe(){
+      System.out.println("Die Liste enthält "+ this.aktuelleWortanzahl 
+              + " Wörter.");
+  }
   
   private void druckeWort(int min, int max){
+      this.aktuelleWortanzahl = 0;
       for(String wort : wortanzahl_map.keySet()){
       if(wortanzahl_map.get(wort)> min && wortanzahl_map.get(wort)< max)
       {
         System.out.printf("%-40s", wort) ;
         System.out.printf("%10s", wortanzahl_map.get(wort));
         System.out.println("");
+        this.aktuelleWortanzahl++;
       }
-    }
+    }    
   }
   
   public void AusgabeA_Z(int min , int max){
