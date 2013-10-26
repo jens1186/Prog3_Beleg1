@@ -10,7 +10,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.StringTokenizer;
 
@@ -49,7 +51,11 @@ public final class Read {
       StringTokenizer inhalt4inhalt = new StringTokenizer(this.inhalt_roh,
               "§$«»<>.,_+!?;:\"\n ()[]");
       while (inhalt4inhalt.hasMoreElements()){
-              this.inhalt.add(inhalt4inhalt.nextElement().toString());
+              String tempWort = inhalt4inhalt.nextElement().toString() ;
+              if(tempWort.length()>1 && tempWort.matches("[a-zA-ZäÄüÜöÖß]*"))
+              {
+              this.inhalt.add(tempWort);
+              }
           }
     }
     catch (IOException e) {
@@ -85,44 +91,31 @@ public final class Read {
   
   public void zaehlenAsc(){
     
-    final ArrayList<String> words = new ArrayList<>();
-    HashMap <ArrayList, Integer> map = new HashMap<> (); // word | anzahl
+    Hashtable <String, Integer> map = new Hashtable<> (); // word | anzahl
         
     for(String wort : this.inhalt){
-          if(!map.containsKey(words))
+          if(!map.containsKey(wort))
               {
-                map.put(words, 1);
+                map.put(wort, 1);
               }
-              else
+          else
               {
-                map.put(words,map.get(words)+1);
+                map.put(wort,map.get(wort)+1);
               }
               //System.out.println(wordMap);
       }
-         Iterator<ArrayList> iterator = map.keySet().iterator();
-         ArrayList<String> sKey = new ArrayList<String>();
-         while (iterator.hasNext()) {
-            sKey = iterator.next();
-            System.out.println(sKey + " - " + map.get(sKey));
-          
+    Enumeration e = map.keys();
+         while (e.hasMoreElements()) {
+      //      sKey = iterator.next();
+             
+        String alias = (String)e.nextElement();
+        System.out.printf("%-40s", alias) ;
+        System.out.printf("%10s", map.get(alias));
+        System.out.println("");
     }
     }
     
-    catch (IOException e) {
-      System.out.println("Die angegebene Datei konnte nicht gefunden werden.\n"
-              + "Bitte ueberpruefen Sie ihre Eingabe");
-    }
-    
-    /* Liste alphabetisch aufsteigend sortieren (a...z) */
-    //Collections.sort(words);
-    
-    /* Ausgabe: Frank Hans Peter */
-    //for(String name : words){
-      //System.out.println(name);
-      
-    //}
-  }
- 
+  
 
 
   
